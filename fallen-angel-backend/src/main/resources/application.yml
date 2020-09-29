@@ -1,0 +1,42 @@
+driw:
+  schemas:
+    ecommerce: fallen_angel
+  datasource:
+    timezone: America/Sao_Paulo
+
+spring:
+  application:
+    name: fallen-angel-backend
+  datasource:
+    url: jdbc:mysql://localhost:3306/${driw.schemas.ecommerce}?useLegacyDatetimeCode=false&serverTimezone=${driw.datasource.timezone}
+    password: root
+    username: root
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+  messages:
+    basename: locale/messages
+
+hibernate:
+  hbm2ddl:
+    auto: validate
+
+logging:
+  level:
+    br:
+      com:
+        driw:
+          bridge: DEBUG
+          modules: DEBUG
+
+feign:
+  client:
+    default-config: default
+    config:
+      default:
+        loggerLevel: full
+        decoder: br.com.driw.fallenangel.thirdparty.feign.FeignResponseDecoder
+        errorDecoder: br.com.driw.fallenangel.thirdparty.feign.FeignResponseErrorDecoder
